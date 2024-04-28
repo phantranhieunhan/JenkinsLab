@@ -18,7 +18,9 @@ pipeline{
         sh 'docker build -f project/Dockerfile -t phantranhieunhan/docker-gs-ping:latest ./project/'
 
         // push image
-        sh 'docker image push phantranhieunhan/docker-gs-ping:latest'
+        withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
+          sh 'docker image push phantranhieunhan/docker-gs-ping:latest'
+        }
       }
     }
     stage('Deploy'){
