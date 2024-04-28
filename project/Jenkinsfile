@@ -24,6 +24,11 @@ pipeline{
         sh 'docker image push phantranhieunhan/docker-gs-ping:latest'
       }
     }
+    stage('Login') {
+      steps {
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+      }
+    }
     stage('Deploy'){
       // pull image
       steps{
@@ -49,6 +54,9 @@ pipeline{
     }
     failure {
       slackSend failOnError: true, color: "#EB1005", message: "Build failed"
+    }
+    always {
+      sh 'docker logout'
     }
   }
 }
