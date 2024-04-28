@@ -12,6 +12,11 @@ pipeline{
          )
       }
     }
+    stage('Login') {
+      steps {
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+      }
+    }
     stage('Test & Build'){
       steps{
         // send slack
@@ -22,11 +27,6 @@ pipeline{
 
         // push image
         sh 'docker image push phantranhieunhan/docker-gs-ping:latest'
-      }
-    }
-    stage('Login') {
-      steps {
-        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
       }
     }
     stage('Deploy'){
