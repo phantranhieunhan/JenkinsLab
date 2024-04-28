@@ -18,7 +18,7 @@ pipeline{
         sh 'docker build -f project/Dockerfile -t phantranhieunhan/docker-gs-ping:latest ./project/'
 
         // push image
-        withDockerRegistry([ credentialsId: "phantranhieunhan", url: "" ]) {
+        docker.withRegistry('', 'phantranhieunhan') {
           sh 'docker image push phantranhieunhan/docker-gs-ping:latest'
         }
       }
