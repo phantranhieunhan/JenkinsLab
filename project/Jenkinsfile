@@ -1,5 +1,8 @@
 pipeline{
   agent any
+  environment{
+    DOCKERHUB_CREDENTIALS = credentials('phantranhieunhan')
+  }
   stages{
     stage('Checkout SCM'){
       steps {
@@ -18,9 +21,7 @@ pipeline{
         sh 'docker build -f project/Dockerfile -t phantranhieunhan/docker-gs-ping:latest ./project/'
 
         // push image
-        docker.withRegistry('', 'phantranhieunhan') {
-          sh 'docker image push phantranhieunhan/docker-gs-ping:latest'
-        }
+        sh 'docker image push phantranhieunhan/docker-gs-ping:latest'
       }
     }
     stage('Deploy'){
